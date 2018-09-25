@@ -258,5 +258,14 @@ namespace CarProjectTest
             Assert.AreEqual(393, car.onBoardComputerDisplay.EstimatedRange, "Wrong Estimated-Range.");
         }
 
+        [TestMethod]
+        public void TestEstimatedRangeBeforeDriving()
+        {
+            var car = new Car();
+
+            car.EngineStart();
+
+            Assert.AreEqual(417, car.onBoardComputerDisplay.EstimatedRange , "Wrong Estimated-Range");
+        }
     }
 }

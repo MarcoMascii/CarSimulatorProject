@@ -70,6 +70,7 @@ namespace CarModel.Car
         {
             if (engine.IsRunning)
             {
+                onBoardComputer.TotalReset();
                 drivingProcessor.EngineStop();
                 engine.Stop();
             }

@@ -146,14 +146,11 @@ namespace CarModel.Car
         #region [ Methods ]
         public void ElapseSecond()
         {
-
+            _tripAverageSpeed += ActualSpeed;
+            _totalAverageSpeed += ActualSpeed;
             _currentTripDistance += ActualSpeed;
             _totalRealTime++;
             _tripRealTime++;
-
-            _tripAverageSpeed += _tripDrivenDistance * 1.0 / _tripRealTime;
-            _totalAverageSpeed += ActualSpeed * 1.0 / _totalRealTime;
-
 
             if (ActualSpeed != 0)
             {

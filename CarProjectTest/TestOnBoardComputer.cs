@@ -267,5 +267,43 @@ namespace CarProjectTest
 
             Assert.AreEqual(417, car.onBoardComputerDisplay.EstimatedRange , "Wrong Estimated-Range");
         }
+
+        [TestMethod]
+        public void TestAverageConsumptionAfterAcceleratingAndReset()
+        {
+            var car = new Car();
+
+            car.EngineStart();
+
+            car.onBoardComputerDisplay.TripReset();
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.onBoardComputerDisplay.TripReset();
+            Assert.AreEqual(0, car.onBoardComputerDisplay.TripAverageConsumptionByTime, "Wrong Trip-Average-Consumption-By-Time");
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.onBoardComputerDisplay.TotalReset();
+            Assert.AreEqual(0.002d, car.onBoardComputerDisplay.TripAverageConsumptionByTime, "Wrong Trip-Average-Consumption-By-Time");
+        }
+
+        [TestMethod]
+        public void TestAverageSpeed2()
+        {
+            var car = new Car();
+            car.EngineStart();
+            car.RunningIdle();
+            car.RunningIdle();
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.BrakeBy(10);
+            car.BrakeBy(10);
+            car.BrakeBy(10);
+            Assert.AreEqual(21.399999999999999d, car.onBoardComputerDisplay.TripAverageSpeed, "Wrong Trip-Average-Speed.");
+        }
     }
 }

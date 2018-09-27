@@ -9,7 +9,6 @@ namespace CarModel.Car
         #region [ Fields ]
         private IDrivingProcessor _drivingProcessor;
         private readonly IFuelTank _fuelTank;
-        private int _currentTripTime = 0;
         private int _currentTripDistance = 0;
         private int _tripRealTime = 0;
         private int _totalDrivingTime = 0;
@@ -18,11 +17,13 @@ namespace CarModel.Car
         private int _totalRealTime = 0;
         private double _totalConsumption = 0;
         private double _tripConsumption = 0;
-        private int _tripAverageSpeed = 0;
-        private int _totalAverageSpeed = 0;
+        private double _tripAverageSpeed = 0;
+        private double _totalAverageSpeed = 0;
         private int _totalDrivenDistance = 0;
         private double _tripAverageConsumptionByDistance = 0;
         private double _totalAverageConsumptionByDistance = 0;
+        private double _tripAverageConsumptionByTime = 0;
+        private double _totalAverageConsumptionByTime = 0;
         private List<double> _consumptionInLast100Sec = new List<double>();
         #endregion
 
@@ -56,7 +57,7 @@ namespace CarModel.Car
         {
             get
             {
-                if (_currentTripTime == 0)
+                if (_tripRealTime == 0)
                 {
                     return 0;
                 }
@@ -86,11 +87,11 @@ namespace CarModel.Car
         {
             get
             {
-                if (_currentTripTime == 0)
+                if (_tripRealTime == 0)
                 {
                     return 0;
                 }
-                return _tripConsumption / _currentTripTime;
+                return _tripConsumption / _tripRealTime;
             }
         }
 
@@ -98,11 +99,11 @@ namespace CarModel.Car
         {
             get
             {
-                if (_currentTripTime == 0)
+                if (_totalRealTime == 0)
                 {
                     return 0;
                 }
-                return _tripConsumption / _currentTripTime;
+                return _totalConsumption / _totalRealTime;
             }
         }
 
@@ -134,7 +135,7 @@ namespace CarModel.Car
         {
             get
             {
-                return (int)Math.Round(_fuelTank.FillLevel / (_consumptionInLast100Sec.Sum() / 100) / 36);
+                return (int)Math.Round(_fuelTank.FillLevel / _consumptionInLast100Sec.Average() / 36);
             }
         }
 
@@ -145,42 +146,47 @@ namespace CarModel.Car
         #region [ Methods ]
         public void ElapseSecond()
         {
-            _currentTripTime++;
-            _tripAverageSpeed += ActualSpeed;
-            _totalAverageSpeed += ActualSpeed;
+
             _currentTripDistance += ActualSpeed;
             _totalRealTime++;
             _tripRealTime++;
+
+            _tripAverageSpeed += _tripDrivenDistance * 1.0 / _tripRealTime;
+            _totalAverageSpeed += ActualSpeed * 1.0 / _totalRealTime;
+
 
             if (ActualSpeed != 0)
             {
                 _totalDrivingTime++;
                 _tripDrivingTime++;
-                _totalConsumption += _drivingProcessor.ActualConsumption;
                 _tripConsumption += _drivingProcessor.ActualConsumption;
+                _totalConsumption += _drivingProcessor.ActualConsumption;
                 _tripAverageConsumptionByDistance += _drivingProcessor.ActualConsumption * 100000 / _drivingProcessor.ActualSpeed * 3.6;
                 _totalAverageConsumptionByDistance += _drivingProcessor.ActualConsumption * 100000 / _drivingProcessor.ActualSpeed * 3.6;
+                _tripAverageConsumptionByTime += ActualConsumptionByTime;
+                _totalAverageConsumptionByTime += ActualConsumptionByTime;
                 _consumptionInLast100Sec.RemoveAt(0);
                 _consumptionInLast100Sec.Add(_drivingProcessor.ActualConsumption);
             }
-
+            _totalDrivenDistance += ActualSpeed;
             _tripDrivenDistance += ActualSpeed;
         }
 
         public void TotalReset()
         {
-            _currentTripTime = 0;            
-            _tripRealTime = 0;
-            _tripDrivenDistance = 0;
-            _totalConsumption = 0;            
+            _totalDrivenDistance = 0;
+            _totalConsumption = 0;
             _totalAverageSpeed = 0;
             _totalDrivingTime = 0;
             _totalRealTime = 0;
-            TripReset();
+            _totalAverageConsumptionByDistance = 0;
+            _totalAverageConsumptionByTime = 0;
+
         }
 
         public void TripReset()
         {
+            _tripAverageConsumptionByTime = 0;
             _currentTripDistance = 0;
             _currentTripDistance = 0;
             _tripConsumption = 0;
@@ -188,6 +194,8 @@ namespace CarModel.Car
             _tripDrivingTime = 0;
             _tripRealTime = 0;
             _tripDrivenDistance = 0;
+            _tripAverageConsumptionByDistance = 0;
+            _totalAverageConsumptionByTime = 0;
         }
         #endregion
 

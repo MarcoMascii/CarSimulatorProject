@@ -109,11 +109,11 @@ namespace CarModel.Car
         {
             get
             {
-                if (_totalDrivingTime == 0)
+                if (_tripDrivingTime == 0)
                 {
                     return 0;
                 }
-                return _tripAverageConsumptionByDistance / _totalDrivingTime;
+                return _tripAverageConsumptionByDistance / _tripDrivingTime;
             }
         }
 
@@ -125,7 +125,7 @@ namespace CarModel.Car
                 {
                     return 0;
                 }
-                return _tripAverageConsumptionByDistance / _totalDrivingTime;
+                return _totalAverageConsumptionByDistance / _totalDrivingTime;
             }
         }
 

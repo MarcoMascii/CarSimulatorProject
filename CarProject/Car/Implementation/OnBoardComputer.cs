@@ -32,7 +32,7 @@ namespace CarModel.Car
         {
             _drivingProcessor = drivingProcessor;
             _fuelTank = fuelTank;
-            Enumerable.Range(0, 100).ToList().ForEach(c => _consumptionInLast100Sec.Add(0.001332));
+            Enumerable.Range(0, 100).ToList().ForEach(c => _consumptionInLast100Sec.Add(0.048));
         }
         #endregion
 
@@ -135,7 +135,7 @@ namespace CarModel.Car
         {
             get
             {
-                return (int)Math.Round(_fuelTank.FillLevel / _consumptionInLast100Sec.Average() / 36);
+                return (int)Math.Round((_fuelTank.FillLevel / _consumptionInLast100Sec.Average()));                
             }
         }
 
@@ -163,7 +163,7 @@ namespace CarModel.Car
                 _tripAverageConsumptionByTime += ActualConsumptionByTime;
                 _totalAverageConsumptionByTime += ActualConsumptionByTime;
                 _consumptionInLast100Sec.RemoveAt(0);
-                _consumptionInLast100Sec.Add(_drivingProcessor.ActualConsumption);
+                _consumptionInLast100Sec.Add(_drivingProcessor.ActualConsumption / _drivingProcessor.ActualSpeed * 3600);
             }
             _totalDrivenDistance += ActualSpeed;
             _tripDrivenDistance += ActualSpeed;

@@ -70,7 +70,9 @@ namespace CarModel.Car
         {
             if (engine.IsRunning)
             {
+                onBoardComputer.TripReset();
                 drivingProcessor.EngineStop();
+                onBoardComputer.ElapseSecond();
                 engine.Stop();
             }
         }
@@ -83,25 +85,37 @@ namespace CarModel.Car
         public void RunningIdle()
         {
             drivingProcessor.ReduceSpeed(0);
-            onBoardComputer.ElapseSecond();
+            if (engine.IsRunning)
+            {
+                onBoardComputer.ElapseSecond();
+            }            
         }
 
         public void BrakeBy(int speed)
         {
             drivingProcessor.ReduceSpeed(speed);
-            onBoardComputer.ElapseSecond();
+            if (engine.IsRunning)
+            {
+                onBoardComputer.ElapseSecond();
+            }
         }
 
         public void Accelerate(int speed)
         {
             drivingProcessor.IncreaseSpeedTo(speed);
-            onBoardComputer.ElapseSecond();
+            if (engine.IsRunning)
+            {
+                onBoardComputer.ElapseSecond();
+            }
         }
 
         public void FreeWheel()
         {
             drivingProcessor.ReduceSpeed(1);
-            onBoardComputer.ElapseSecond();
+            if (engine.IsRunning)
+            {
+                onBoardComputer.ElapseSecond();
+            }
         }
     }
     #endregion

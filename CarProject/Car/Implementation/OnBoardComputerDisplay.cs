@@ -26,17 +26,17 @@ namespace CarModel.Car
 
         public int ActualSpeed { get => _onBoardComputer.ActualSpeed; }
 
-        public double TripAverageSpeed { get => _onBoardComputer.TripAverageSpeed; }
+        public double TripAverageSpeed { get => Math.Round(_onBoardComputer.TripAverageSpeed, 1); }
 
-        public double TotalAverageSpeed { get => _onBoardComputer.TotalAverageSpeed; }
+        public double TotalAverageSpeed { get => Math.Round(_onBoardComputer.TotalAverageSpeed, 1); }
 
         public double ActualConsumptionByTime { get => _onBoardComputer.ActualConsumptionByTime; }
 
         public double ActualConsumptionByDistance { get => Math.Round(_onBoardComputer.ActualConsumptionByDistance, 1); }
 
-        public double TripAverageConsumptionByTime { get => Math.Round(_onBoardComputer.TripAverageConsumptionByTime, 4); }
+        public double TripAverageConsumptionByTime { get => Math.Round(_onBoardComputer.TripAverageConsumptionByTime, 5); }
 
-        public double TotalAverageConsumptionByTime { get => Math.Round(_onBoardComputer.TotalAverageConsumptionByTime, 4); }
+        public double TotalAverageConsumptionByTime { get => Math.Round(_onBoardComputer.TotalAverageConsumptionByTime, 5); }
 
         public double TripAverageConsumptionByDistance { get => Math.Round(_onBoardComputer.TripAverageConsumptionByDistance, 1); }
 

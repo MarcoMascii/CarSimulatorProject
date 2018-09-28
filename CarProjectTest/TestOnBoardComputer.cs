@@ -223,6 +223,27 @@ namespace CarProjectTest
         }
 
         [TestMethod]
+        public void TestAverageConsumptionsAfterRunningIdle()
+        {
+            var car = new Car();
+
+            car.EngineStart();
+            car.Accelerate(10);
+
+            car.BrakeBy(5);
+            car.BrakeBy(5);
+
+            car.RunningIdle();
+            car.RunningIdle();
+            car.RunningIdle();
+
+            Assert.AreEqual(0.00046, car.onBoardComputerDisplay.TripAverageConsumptionByTime, "Wrong Trip-Average-Consumption-By-Time");
+            Assert.AreEqual(0.00046, car.onBoardComputerDisplay.TotalAverageConsumptionByTime, "Wrong Total-Average-Consumption-By-Time");
+            //Assert.AreEqual(26.4, car.onBoardComputerDisplay.TripAverageConsumptionByDistance, "Wrong Trip-Average-Consumption-By-Distance");
+            //Assert.AreEqual(26.4, car.onBoardComputerDisplay.TotalAverageConsumptionByDistance, "Wrong Total-Average-Consumption-By-Distance");
+        }
+
+        [TestMethod]
         public void TestDrivenDistancesAfterEngineStart()
         {
             var car = new Car();
@@ -258,5 +279,85 @@ namespace CarProjectTest
             Assert.AreEqual(393, car.onBoardComputerDisplay.EstimatedRange, "Wrong Estimated-Range.");
         }
 
+        [TestMethod]
+        public void TestEstimatedRangeBeforeDriving()
+        {
+            var car = new Car();
+
+            car.EngineStart();
+
+            Assert.AreEqual(417, car.onBoardComputerDisplay.EstimatedRange , "Wrong Estimated-Range");
+        }
+
+        [TestMethod]
+        public void TestAverageConsumptionAfterAcceleratingAndReset()
+        {
+            var car = new Car();
+
+            car.EngineStart();
+
+            car.onBoardComputerDisplay.TripReset();
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.onBoardComputerDisplay.TripReset();
+            Assert.AreEqual(0, car.onBoardComputerDisplay.TripAverageConsumptionByTime, "Wrong Trip-Average-Consumption-By-Time");
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.onBoardComputerDisplay.TotalReset();
+            Assert.AreEqual(0.002d, car.onBoardComputerDisplay.TripAverageConsumptionByTime, "Wrong Trip-Average-Consumption-By-Time");
+        }
+
+        [TestMethod]
+        public void TestAverageSpeed2()
+        {
+            var car = new Car();
+            car.EngineStart();
+            car.RunningIdle();
+            car.RunningIdle();
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.Accelerate(30);
+            car.BrakeBy(10);
+            car.BrakeBy(10);
+            car.BrakeBy(10);
+            Assert.AreEqual(21.399999999999999d, car.onBoardComputerDisplay.TripAverageSpeed, "Wrong Trip-Average-Speed.");
+        }
+
+        [TestMethod]
+        public void TestEstimatedRangeAfterDrivingSlowSpeedForLowerThan100Seconds()
+        {
+            var car = new Car();
+
+            car.EngineStart();
+            car.onBoardComputerDisplay.TripReset();
+            Enumerable.Range(0, 50).ToList().ForEach(c => car.Accelerate(30));
+            Assert.AreEqual(133, car.onBoardComputerDisplay.EstimatedRange, "Wrong Estimated-Range");
+        }
+
+        [TestMethod]
+        public void TestEstimatedRangeAfterDrivingOptimumSpeedForLowerThan100Seconds()
+        {
+            var car = new Car();
+
+            car.EngineStart();
+            car.onBoardComputerDisplay.TripReset();
+            Enumerable.Range(0, 50).ToList().ForEach(c => car.Accelerate(100));
+            Assert.AreEqual(310, car.onBoardComputerDisplay.EstimatedRange, "Wrong Estimated-Range");
+        }
+
+        [TestMethod]
+        public void TestEstimatedRangeAfterDrivingMaxSpeed()
+        {
+            var car = new Car();
+
+            car.EngineStart();
+            car.onBoardComputerDisplay.TripReset();
+            Enumerable.Range(0, 150).ToList().ForEach(c => car.Accelerate(250));
+            Assert.AreEqual(453, car.onBoardComputerDisplay.EstimatedRange, "Wrong Estimated-Range");
+        }
     }
 }

@@ -223,6 +223,27 @@ namespace CarProjectTest
         }
 
         [TestMethod]
+        public void TestAverageConsumptionsAfterRunningIdle()
+        {
+            var car = new Car();
+
+            car.EngineStart();
+            car.Accelerate(10);
+
+            car.BrakeBy(5);
+            car.BrakeBy(5);
+
+            car.RunningIdle();
+            car.RunningIdle();
+            car.RunningIdle();
+
+            Assert.AreEqual(0.00046, car.onBoardComputerDisplay.TripAverageConsumptionByTime, "Wrong Trip-Average-Consumption-By-Time");
+            Assert.AreEqual(0.00046, car.onBoardComputerDisplay.TotalAverageConsumptionByTime, "Wrong Total-Average-Consumption-By-Time");
+            //Assert.AreEqual(26.4, car.onBoardComputerDisplay.TripAverageConsumptionByDistance, "Wrong Trip-Average-Consumption-By-Distance");
+            //Assert.AreEqual(26.4, car.onBoardComputerDisplay.TotalAverageConsumptionByDistance, "Wrong Total-Average-Consumption-By-Distance");
+        }
+
+        [TestMethod]
         public void TestDrivenDistancesAfterEngineStart()
         {
             var car = new Car();

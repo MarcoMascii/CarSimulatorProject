@@ -34,9 +34,9 @@ namespace CarModel.Car
 
         public double ActualConsumptionByDistance { get => Math.Round(_onBoardComputer.ActualConsumptionByDistance, 1); }
 
-        public double TripAverageConsumptionByTime { get => Math.Round(_onBoardComputer.TripAverageConsumptionByTime, 4); }
+        public double TripAverageConsumptionByTime { get => Math.Round(_onBoardComputer.TripAverageConsumptionByTime, 5); }
 
-        public double TotalAverageConsumptionByTime { get => Math.Round(_onBoardComputer.TotalAverageConsumptionByTime, 4); }
+        public double TotalAverageConsumptionByTime { get => Math.Round(_onBoardComputer.TotalAverageConsumptionByTime, 5); }
 
         public double TripAverageConsumptionByDistance { get => Math.Round(_onBoardComputer.TripAverageConsumptionByDistance, 1); }
 

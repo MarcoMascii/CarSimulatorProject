@@ -22,8 +22,6 @@ namespace CarModel.Car
         private int _totalDrivenDistance = 0;
         private double _tripAverageConsumptionByDistance = 0;
         private double _totalAverageConsumptionByDistance = 0;
-        private double _tripAverageConsumptionByTime = 0;
-        private double _totalAverageConsumptionByTime = 0;
         private List<double> _consumptionInLast100Sec = new List<double>();
         #endregion
 
@@ -156,15 +154,15 @@ namespace CarModel.Car
             {
                 _totalDrivingTime++;
                 _tripDrivingTime++;
-                _tripConsumption += _drivingProcessor.ActualConsumption;
-                _totalConsumption += _drivingProcessor.ActualConsumption;
                 _tripAverageConsumptionByDistance += _drivingProcessor.ActualConsumption * 100000 / _drivingProcessor.ActualSpeed * 3.6;
                 _totalAverageConsumptionByDistance += _drivingProcessor.ActualConsumption * 100000 / _drivingProcessor.ActualSpeed * 3.6;
-                _tripAverageConsumptionByTime += ActualConsumptionByTime;
-                _totalAverageConsumptionByTime += ActualConsumptionByTime;
                 _consumptionInLast100Sec.RemoveAt(0);
                 _consumptionInLast100Sec.Add(_drivingProcessor.ActualConsumption / _drivingProcessor.ActualSpeed * 3600);
             }
+
+            _tripConsumption += _drivingProcessor.ActualConsumption;
+            _totalConsumption += _drivingProcessor.ActualConsumption;
+
             _totalDrivenDistance += ActualSpeed;
             _tripDrivenDistance += ActualSpeed;
         }
@@ -177,13 +175,10 @@ namespace CarModel.Car
             _totalDrivingTime = 0;
             _totalRealTime = 0;
             _totalAverageConsumptionByDistance = 0;
-            _totalAverageConsumptionByTime = 0;
-
         }
 
         public void TripReset()
         {
-            _tripAverageConsumptionByTime = 0;
             _currentTripDistance = 0;
             _currentTripDistance = 0;
             _tripConsumption = 0;
@@ -192,7 +187,6 @@ namespace CarModel.Car
             _tripRealTime = 0;
             _tripDrivenDistance = 0;
             _tripAverageConsumptionByDistance = 0;
-            _totalAverageConsumptionByTime = 0;
         }
         #endregion
 
